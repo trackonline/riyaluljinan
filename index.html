@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Progress Card</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;700&display=swap" rel="stylesheet">
+   
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;700&display=swap');
+           
+       .arabic {
+           font-size: 50px;
+           margin-bottom: 0px;
+           font-family: 'Reem Kufi', sans-serif;
+           font-weight: 100;
+       }
+       .malayalam {
+       font-size:30px;
+               font-family: "Karthika", "Noto Sans Malayalam", sans-serif;
+           }
+           #campus{
+           font-size:20px;
+           }
+       body {
+           font-family: Arial, sans-serif;
+           background-color: #f4f4f4;
+           text-align: center;
+           padding: 20px;
+           align-items:center;
+           
+       }
+
+       .container {
+           max-width: 600px;
+           margin: auto;
+           background: white;
+           padding: 20px;
+           border-radius: 10px;
+           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+       }
+
+       input, button {
+           width: 90%;
+           padding: 10px;
+           margin: 10px 0;
+           border-radius: 5px;
+           border: 1px solid #ddd;
+       }
+
+       button {
+           background-color: #28a745;
+           color: white;
+           cursor: pointer;
+       }
+
+       button:hover {
+           background-color: #218838;
+       }
+       
+       .progress-card {
+           background: #f9f9f9;
+           border-radius: 10px;
+           padding: 15px;
+           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+           margin-top: 20px;
+       }
+
+       .progress-card h2 {
+           color: #333;
+       }
+
+       .progress-card p {
+           font-size: 14px;
+           color: #555;
+           text-align:left;
+       }
+
+       .progress-card table {
+           width: 100%;
+           border-collapse: collapse;
+           margin-top: 10px;
+       }
+
+       .progress-card table, th, td {
+           border: 1px solid #ddd;
+       }
+
+       .progress-card th, td {
+           padding: 8px;
+           text-align: center;
+       }
+
+       .progress-card th {
+           background: #007bff;
+           color: white;
+       }
+#progressCardContainer {
+display:flex;
+margin:auto;
+   width:20cm;
+       max-width:20cm;
+       max-height:26cm;
+       width: 100%;
+       padding: 5px;
+       font-size: 11px; /* Adjust font size for readability */
+       text-align:center;
+
+   }
+   
+   #progressard .faild{
+       background: #f5352b;
+           color: white;
+           padding: 10px;
+           margin-top: 15px;
+           border-radius: 8px;
+           font-size: 18px;
+           font-weight: bold;
+           animation: fadeIn 1.5s ease-in-out;
+   }
+   #progressard .congratulations {
+           background: #28a745;
+           color: white;
+           padding: 10px;
+           margin-top: 15px;
+           border-radius: 8px;
+           font-size: 18px;
+           font-weight: bold;
+           animation: fadeIn 1.5s ease-in-out;
+       }
+
+       @keyframes fadeIn {
+           from { opacity: 0; transform: scale(0.9); }
+           to { opacity: 1; transform: scale(1); }
+       }
+
+       @media screen and (max-width: 768px) {
+       container{
+       width:100%;
+       }
+       h2{
+       font-size:13px;
+       }
+       .arabic {
+           font-size: 30px;
+           margin-bottom: 0px;
+           font-family: 'Reem Kufi', sans-serif;
+           font-weight: 100;
+       }
+       .malayalam {
+       font-size:19px;
+               font-family: "Karthika", "Noto Sans Malayalam", sans-serif;
+           }
+           #campus{
+           font-size:14px;
+           }
+   #progressCardContainer {
+   width:20cm;
+       max-width:20cm;
+       max-height:26cm;
+       width: 100%;
+       padding: 5px;
+       font-size: 11px; /* Adjust font size for readability */
+   }
+
+   .header {
+       text-align: center;
+       font-size: 11px;
+   }
+
+   .student-info {
+       display: block; /* Stack elements vertically */
+       text-align: center;
+   }
+
+   .table-container {
+       overflow-x: auto; /* Enable horizontal scrolling for tables */
+   }
+
+   table {
+       width: 100%;
+       font-size: 12px; /* Reduce table font size */
+   }
+
+   .button-container {
+       text-align: center;
+       padding: 10px 0;
+   }
+
+   .download-btn {
+       width:fit-content;
+       padding: 12px;
+       font-size: 16px;
+   }
+   .congratulations {
+           background: #28a745;
+           color: white;
+           padding: 10px;
+           margin-top: 15px;
+           border-radius: 8px;
+           font-size: 14px;
+           font-weight: bold;
+           animation: fadeIn 1.5s ease-in-out;
+       }
+}
+
+       @media print {
+       .hidePrint{
+       display:none;}
+   #progressCardContainer {
+       width: 100%;
+       font-size: 14px;
+   }
+
+   table {
+       page-break-inside: auto;
+   }
+
+   tr {
+       page-break-inside: avoid;
+       page-break-after: auto;
+   }
+}
+#loading {
+    display: none;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #007bff; /* Or any color you prefer */
+    margin-top: 20px;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+}
+
+   </style>
+</head>
+<body>
+    <div id="mainContent">
+        <div id="searchField" class="container">
+            <div>
+                <h1 id="arabicName" class="arabic"></h1>
+                <h2 id="malayalamName" class="malayalam" style="margin-top: 0; margin-bottom: 0.3em;"></h2>
+                <h3 id="campus" style="margin-top: 0.2em;">loadingData</h3>
+            </div>
+            <h2 id="exam"style="color: red;">.</h2>
+            <input type="text" id="searchAdnumber" placeholder="Enter AD Number">
+            <input type="text" id="searchClass" placeholder="Enter Class">
+            <input type="text" id="searchDivision" placeholder="Enter Division">
+            <button onclick="fetchMarks();" id="searchBtn">Get Result</button>
+        <p id="loading"> loading.... your result will be displayed here</p>
+        </div>
+        <div id="printBtn" class="hidePrint" style="display: none; margin-top: 10px; width: auto; justify-content: flex-end;">
+            <button onclick="printProgressCard()">Print</button>
+            <button onclick="gotoSearch()" style="background-color: blue; color: white;">Check Another Result</button>
+        </div>
+        <div id="progressCardContainer"></div>
+    </div>
+    <div id="printArea" style="display: none;">
+        <div style="display: flex; justify-content: right;">
+            <button class="hidePrint" onclick="togglePrint()">Close</button>
+            <button class="hidePrint" onclick="downloadPDF()">Download PDF</button>
+        </div>
+        <div id="printContents" style="max-width: 20cm; max-height: 27cm; margin: 10px;"></div>
+    </div>
+    <script>
+        let arabicName = "";
+        let malayalamName = "";
+        let campus="";
+        let exam ="";
+        fetchDetails();
+        function fetchDetails (){
+            document.getElementById("loading").style.display="block";
+            var url = `https://script.google.com/macros/s/AKfycbzH0P0Ra3VCFEeWgAWKZSgI-D1PvMqOIidvPW6PdW9pY_G5jlD-dVTt5-lPFFulhqFziQ/exec?action=details&madrassa=pallar`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+               alert("something errror");
+                return;
+                document.getElementById("loading").style.display="none";
+            }
+            document.getElementById("loading").style.display="none";
+            arabicName = data.arabicName;
+            malayalamName =data.malayalamName;
+            campus = data.place;
+            exam =data.examName;
+            document.getElementById('arabicName').textContent=arabicName;
+            document.getElementById('malayalamName').textContent=malayalamName;
+            document.getElementById('campus').textContent=data.place;
+            document.getElementById('exam').textContent=exam;
+            
+})
+        .catch(error => {
+            console.error("Error fetching data:", error);
+            alert("Error fetching data. Please try again.");
+            document.getElementById("loading").style.display="none";
+        });
+
+        }
+      // Function to go back to the search field
+function gotoSearch() {
+    document.getElementById("searchField").style.display = "block";
+    document.getElementById("progressCardContainer").style.display = "none";
+    document.getElementById("printBtn").style.display = "none";
+}
+
+// Function to toggle between print view and main content
+function togglePrint() {
+    document.getElementById("mainContent").style.display = "block";
+    document.getElementById("printArea").style.display = "none";
+}
+
+// Function to download the progress card as a PDF
+function downloadPDF() {
+    const element = document.getElementById("printContents");
+    html2pdf().from(element).save("Progress_Card.pdf");
+}
+
+// Function to print the progress card
+function printProgressCard() {
+    const progressCardContainer = document.getElementById("progressCardContainer");
+    const printContents = document.getElementById("printContents");
+    printContents.innerHTML = progressCardContainer.innerHTML;
+    document.getElementById("mainContent").style.display = "none";
+    document.getElementById("printArea").style.display = "block";
+    setTimeout(() => window.print(), 500);
+    setTimeout(togglePrint, 1000); // Return to normal view after printing
+}
+let studentData = [];
+                let studentInfo = {};
+// Function to fetch student marks from the Google Apps Script
+function fetchMarks() {
+    
+    var adnumber = document.getElementById("searchAdnumber").value.trim();
+    var studentClass = document.getElementById("searchClass").value.trim();
+    var division = document.getElementById("searchDivision").value.trim();
+
+    if (!adnumber || !studentClass || !division) {
+        alert("Please enter all details!");
+        return;
+    }
+    document.getElementById("loading").style.display="block";
+    var url = `https://script.google.com/macros/s/AKfycbzH0P0Ra3VCFEeWgAWKZSgI-D1PvMqOIidvPW6PdW9pY_G5jlD-dVTt5-lPFFulhqFziQ/exec?action=score&adnumber=${adnumber}&class=${studentClass}&div=${division}&madrassa=pallar`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                document.getElementById("loading").style.display="none";
+                document.getElementById("progressCardContainer").innerHTML = `<p style="color:red;">${data.error}</p>`;
+                document.getElementById('progressCardContainer').style.display = 'block';
+                return;
+            }
+            document.getElementById('progressCardContainer').style.display = 'block';
+        studentInfo = {
+        name: data.NAME,
+        class: data.CLASS,
+        division: data.DIV,
+        adnumber: data.adnumber
+    };
+
+    if (Array.isArray(data.MARKS)) {
+        data.MARKS.forEach(sub => {
+            studentData.push({
+                subject: sub.SUBJECT,  // Access subject inside the sub-object
+                maxMark: sub.MAX,  // Access maxMark inside the sub-object
+                obtMark: sub.OBT   // Access obtMark inside the sub-object
+            });
+        });
+    }
+    displayProgressCard(studentInfo, studentData);
+
+        })
+        .catch(error => {
+            document.getElementById("loading").style.display="none";
+            console.error("Error fetching data:", error);
+            alert("Error fetching data. Please try again.");
+        });
+}
+
+function displayProgressCard(studentInfo, studentData) {
+    document.getElementById("loading").style.display="none";
+    let progressHTML = `
+       <div id="progressCard">
+            <h1 class="arabic" style="margin-bottom:0px;">${arabicName} </h1>
+            <h2 style="margin-top:0px;margin-bottom:0.3em;" class="malayalam">${malayalamName}</h2>
+            <h3 style="margin-top: 0.2em;">${campus}</h3>
+            <div class="progress-card">
+                <p style="display: flex; gap: 10px; font-size:16px;"><strong>Name of Student : </strong><span style="color:red; font-weight:bold;">${studentInfo.name}</span></p >
+                <p style="font-size:16px;"><strong>Admission Number:</strong> <span style="color:black; font-weight:bold;">${studentInfo.adnumber}</span></p>
+                <p style="font-size:16px;"><strong>Class:</strong> ${studentInfo.class} - ${studentInfo.division}</p>
+                <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; text-align: center;">
+                    <tr>
+                        <th>Subject</th>
+                        <th>Max Marks</th>
+                        <th>Obtained Marks</th>
+                        <th>Grade</th>
+                        <th>Status</th>
+                    </tr>
+    `;
+
+    let totalMarks = 0;
+    let obtainedMarks = 0;
+    let hasFailed = false; // Flag to check if the student failed
+
+    studentData.forEach((subject) => {
+        const grade = getGrade(subject.maxMark, subject.obtMark);
+        const isPassed = subject.obtMark >= 18;
+        const statusIcon = isPassed ? 'P':'F';//'✔️' : '❌'; // Tick for pass, Cross for fail
+        const rowStyle = isPassed ? "" : 'style="background-color: #ffcccc; font-weight: bold;"'; // Red background for fail
+
+        if (!isPassed) {
+            hasFailed = true; // Mark as failed if any subject is below 18
+        }
+
+        progressHTML += `
+            <tr ${rowStyle}>
+                <td>${subject.subject}</td>
+                <td>${subject.maxMark}</td>
+                <td>${subject.obtMark}</td>
+                <td>${grade}</td> 
+                <td>${statusIcon}</td>
+            </tr>
+        `;
+
+        totalMarks += parseInt(subject.maxMark);
+        obtainedMarks += parseInt(subject.obtMark);
+    });
+
+    let percentage = ((obtainedMarks / totalMarks) * 100).toFixed(2);
+
+    progressHTML += `
+                </table>
+                <p><strong>Total Marks:</strong> ${obtainedMarks} / ${totalMarks}</p>
+                <p><strong>Percentage:</strong> ${percentage}%</p>
+    `;
+
+    if (hasFailed) {
+        progressHTML += `<div class="faild" style="color: red; font-weight: bold;">❌ You have failed the exam. Try again! ❌</div>`;
+    } else {
+        progressHTML += `<div class="congratulations hideprint" style="color: green; font-weight: bold;">🎉 Congratulations! You have passed successfully! 🎉</div>`;
+    }
+
+    progressHTML += `</div></div></div>`;
+
+    document.getElementById("progressCardContainer").innerHTML = progressHTML;
+    document.getElementById("printBtn").style.display = "flex";
+    document.getElementById("searchField").style.display = "none";
+}
+
+// Function to calculate the grade based on obtained marks and maximum marks
+function getGrade(maxMark, obtMark) {
+    let percentage = (obtMark / maxMark) * 100;
+    if (percentage >= 90) return 'A+';
+    if (percentage >= 80) return 'A';
+    if (percentage >= 70) return 'B+';
+    if (percentage >= 60) return 'B';
+    if (percentage >= 50) return 'C';
+    if (percentage >= 40) return 'D';
+    return 'F';
+}
+    </script>
+
+</body>
+</html>
