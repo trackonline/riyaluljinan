@@ -287,6 +287,13 @@
         let malayalamName = "Riyalul Jinan Madrasa";
         let campus="Thennala West Bazar";
         let exam ="ANNUAL EXAMINATION RESULT";
+        loadDetails();
+        function loadDetails(){
+            document.getElementById('arabicName').textContent=arabicName;
+            document.getElementById('malayalamName').textContent=malayalamName;
+            document.getElementById('campus').textContent=campus;
+            document.getElementById('exam').textContent=exam;
+        }
         //fetchDetails();
         function fetchDetails (){
             document.getElementById("loading").style.display="block";
@@ -307,7 +314,7 @@
             exam =data.examName;
             document.getElementById('arabicName').textContent=arabicName;
             document.getElementById('malayalamName').textContent=malayalamName;
-            document.getElementById('campus').textContent=data.place;
+            document.getElementById('campus').textContent=campus;
             document.getElementById('exam').textContent=exam;
             
 })
