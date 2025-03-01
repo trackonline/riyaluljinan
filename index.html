@@ -137,7 +137,7 @@
             }
     
             @media screen and (max-width: 768px) {
-            container{
+            .container{
             width:100%;
             }
             h2{
@@ -194,7 +194,9 @@
             padding: 12px;
             font-size: 16px;
         }
-        .congratulations {
+       
+    }
+    .congratulations {
                 background: #28a745;
                 color: white;
                 padding: 10px;
@@ -202,10 +204,8 @@
                 border-radius: 8px;
                 font-size: 14px;
                 font-weight: bold;
-                animation: fadeIn 1.5s ease-in-out;
+                
             }
-    }
-    
             @media print {
             .hidePrint{
             display:none;}
@@ -249,6 +249,7 @@
     }
 }
 
+
    </style>
 </head>
 <body>
@@ -282,11 +283,11 @@
         <div id="printContents" style="max-width: 20cm; max-height: 27cm; margin: 10px;"></div>
     </div>
     <script>
-        let arabicName = "";
-        let malayalamName = "";
-        let campus="";
-        let exam ="";
-        fetchDetails();
+        let arabicName = "مدرسة رياض الجنان";
+        let malayalamName = "Riyalul Jinan Madrasa";
+        let campus="Thennala West Bazar";
+        let exam ="ANNUAL EXAMINATION RESULT";
+        //fetchDetails();
         function fetchDetails (){
             document.getElementById("loading").style.display="block";
             var url = `https://script.google.com/macros/s/AKfycbzH0P0Ra3VCFEeWgAWKZSgI-D1PvMqOIidvPW6PdW9pY_G5jlD-dVTt5-lPFFulhqFziQ/exec?action=details&madrassa=pallar`;
@@ -390,7 +391,7 @@ let studentInfo = {};
         return;
     }
     document.getElementById("loading").style.display="block";
-    var url = `https://script.google.com/macros/s/AKfycbzH0P0Ra3VCFEeWgAWKZSgI-D1PvMqOIidvPW6PdW9pY_G5jlD-dVTt5-lPFFulhqFziQ/exec?action=score&adnumber=${adnumber}&class=${studentClass}&div=${division}&madrassa=pallar`;
+    var url = `https://script.google.com/macros/s/AKfycbwlugnULMJ0P3HIgR-2U0dC6fWOCvGbv_udpgU0FO0C9AOh4k0Wjs2nVOku0TfQJsfv/exec?action=score&adnumber=${adnumber}&class=${studentClass}&div=${division}&madrassa=pallar`;
 
     fetch(url)
         .then(response => response.json())
@@ -430,14 +431,15 @@ let studentInfo = {};
 
 function displayProgressCard(studentInfo, studentData) {
     document.getElementById("progressCardContainer").innerHTML = "";
-    document.getElementById("loading").style.display="none";
+    document.getElementById("loading").style.display = "none";
+
     let progressHTML = `
-       <div id="progressCard">
+        <div id="progressCard">
             <h1 class="arabic" style="margin-bottom:0px;">${arabicName} </h1>
             <h2 style="margin-top:0px;margin-bottom:0.3em;" class="malayalam">${malayalamName}</h2>
             <h3 style="margin-top: 0.2em;">${campus}</h3>
             <div class="progress-card">
-                <p style="display: flex; gap: 10px; font-size:16px;"><strong>Name of Student : </strong><span style="color:red; font-weight:bold;">${studentInfo.name}</span></p >
+                <p style="display: flex; gap: 10px; font-size:16px;"><strong>Name of Student : </strong><span style="color:red; font-weight:bold;">${studentInfo.name}</span></p>
                 <p style="font-size:16px;"><strong>Admission Number:</strong> <span style="color:black; font-weight:bold;">${studentInfo.adnumber}</span></p>
                 <p style="font-size:16px;"><strong>Class:</strong> ${studentInfo.class} - ${studentInfo.division}</p>
                 <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; text-align: center;">
@@ -452,44 +454,64 @@ function displayProgressCard(studentInfo, studentData) {
 
     let totalMarks = 0;
     let obtainedMarks = 0;
-    let hasFailed = false; // Flag to check if the student failed
+    let hasFailed = false;
+    let hajar = "";
+    let rank = "";
 
-    studentData.forEach((subject) => {
-        const grade = getGrade(subject.maxMark, subject.obtMark);
-        const isPassed = subject.obtMark >= 18;
-        const statusIcon = isPassed ? 'P':'F';//'✔️' : '❌'; // Tick for pass, Cross for fail
-        const rowStyle = isPassed ? "" : 'style="background-color: #ffcccc; font-weight: bold;"'; // Red background for fail
+    if (Array.isArray(studentData)) {
+        studentData.forEach((subject) => {
+            if (typeof subject === 'object' && subject !== null) {
+                if (subject.subject === "hajar") {
+                    hajar = subject.obtMark + " / " + subject.maxMark;
+                } else if (subject.subject === "rank") {
+                    rank = subject.obtMark + " / " + subject.maxMark;
+                } else {
+                    const grade = getGrade(subject.maxMark, subject.obtMark);
+                    const isPassed = parseInt(subject.obtMark) >= 18;
+                    const statusIcon = isPassed ? 'P' : 'F';
+                    const rowStyle = isPassed ? "" : 'style="background-color: #ffcccc; font-weight: bold;"';
 
-        if (!isPassed) {
-            hasFailed = true; // Mark as failed if any subject is below 18
-        }
+                    if (!isPassed) {
+                        hasFailed = true;
+                    }
 
-        progressHTML += `
-            <tr ${rowStyle}>
-                <td>${subject.subject}</td>
-                <td>${subject.maxMark}</td>
-                <td>${subject.obtMark}</td>
-                <td>${grade}</td> 
-                <td>${statusIcon}</td>
-            </tr>
-        `;
+                    progressHTML += `
+                        <tr ${rowStyle}>
+                            <td>${subject.subject}</td>
+                            <td>${subject.maxMark}</td>
+                            <td>${subject.obtMark}</td>
+                            <td>${grade}</td>
+                            <td>${statusIcon}</td>
+                        </tr>
+                    `;
 
-        totalMarks += parseInt(subject.maxMark);
-        obtainedMarks += parseInt(subject.obtMark);
-    });
+                    totalMarks += parseInt(subject.maxMark);
+                    obtainedMarks += parseInt(subject.obtMark);
+                }
+            }
+        });
+    }
 
     let percentage = ((obtainedMarks / totalMarks) * 100).toFixed(2);
 
     progressHTML += `
                 </table>
-                <p><strong>Total Marks:</strong> ${obtainedMarks} / ${totalMarks}</p>
-                <p><strong>Percentage:</strong> ${percentage}%</p>
+                <div style="display: flex; justify-content:space-between; font-size:16px; padding:20px;">
+                    <div style="align-items: left;margin-left: 1px;">
+                        <p><strong>Total Marks:</strong> ${obtainedMarks} / ${totalMarks}</p>
+                        <p><strong>Percentage:</strong> ${percentage}%</p>
+                    </div>
+                    <div style="margin-right: 10px;">
+                        <p><strong>Total Hajar:</strong> ${hajar || "N/A"}</p>
+                        <p style="padding: 2px;background-color: #dbe4dd; width: fit-content; border-radius: 10%;"><strong>Rank: ${rank || "N/A"}</strong></p>
+                    </div>
+                </div>
     `;
 
     if (hasFailed) {
-        progressHTML += `<div class="faild" style="color: red; font-weight: bold;">❌ You have failed the exam. Try again! ❌</div>`;
+        progressHTML += `<div class="faild" style="color: red;font-size:16px; font-weight: bold;"> You have failed the exam</div>`;
     } else {
-        progressHTML += `<div class="congratulations hideprint" style="color: green; font-weight: bold;">🎉 Congratulations! You have passed successfully! 🎉</div>`;
+        progressHTML += `<div class="congratulations hideprint" style=" font-weight: bold;font-size:16px;">🎉 Congratulations! You have passed successfully! 🎉</div>`;
     }
 
     progressHTML += `</div></div></div>`;
@@ -498,6 +520,7 @@ function displayProgressCard(studentInfo, studentData) {
     document.getElementById("printBtn").style.display = "flex";
     document.getElementById("searchField").style.display = "none";
 }
+
 
 // Function to calculate the grade based on obtained marks and maximum marks
 function getGrade(maxMark, obtMark) {
