@@ -264,7 +264,17 @@
             <h2 id="exam"style="color: red;">.</h2>
             <input type="text" id="searchAdnumber" placeholder="Enter AD Number">
             <input type="text" id="searchClass" placeholder="Enter Class">
-            <input type="text" id="searchDivision" placeholder="Enter Division">
+            
+            <input type="text" id="searchDivision" placeholder="Enter Division" onchange="capitalizeDivision()">
+
+<script>
+function capitalizeDivision() {
+  const input = document.getElementById("searchDivision");
+  if (input) {
+    input.value = input.value.toUpperCase();
+  }
+}
+</script>
             <button onclick="fetchMarks();" id="searchBtn">Get Result</button>
         <p id="loading"> loading.... your result will be displayed here</p>
         </div>
@@ -389,6 +399,7 @@ function printProgressCard() {
 function fetchMarks() {
     let studentData = [];
 let studentInfo = {};
+document.getElementById("progressCardContainer").innerHTML = "...";
     var adnumber = document.getElementById("searchAdnumber").value.trim();
     var studentClass = document.getElementById("searchClass").value.trim();
     var division = document.getElementById("searchDivision").value.trim();
