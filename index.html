@@ -422,7 +422,7 @@ document.getElementById("progressCardContainer").innerHTML = "...";
             }
             document.getElementById('progressCardContainer').style.display = 'block';
         studentInfo = {
-        name: data.NAME,
+        name: data.NAME.toUpperCase(),
         class: data.CLASS,
         division: data.DIV,
         adnumber: data.adnumber
